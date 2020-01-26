@@ -1,9 +1,14 @@
-var personalFridge = [new Food("banana"), new Food("apple"), new Food("pear")];
-var localFridge = [new Food("eggs"), new Food("celery")];
 var column = document.getElementById("list");
 fridge = [];
 document.cookie = ""
 var db = firebase.database();
+var currentUser = "Default"
+
+
+function login() {
+username = document.getElementById("inputUsername").value
+console.log(username)
+}
 
 function addToLocalFridge(t) {
   removeFood(t);

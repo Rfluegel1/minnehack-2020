@@ -1,6 +1,7 @@
 var personalFridge = [new Food("banana"), new Food("apple"), new Food("pear")];
 var localFridge = [new Food("eggs"), new Food("celery")];
 var column = document.getElementById("list");
+document.cookie = ""
 
 function addToLocalFridge(t) {
   removeFood(t);
@@ -33,12 +34,12 @@ function display() {
   var headerStr = "<div class='container' style='margin-bottom:20px;'><div class='row' id='your-fridge-title'>"
     if (document.getElementById("fridge_name")) {
       fridge = personalFridge
-      headerStr += "<h1 class='col-md-8' style='padding-top:5px;'>Your Fridge</h1>"
+      headerStr += "<h1 class='col-md-8' style='padding-top:5px;'>Your Fridge</h1><button id='add-food-button' type='button' class='btn btn-primary col-md-4' data-toggle='modal' data-target='#exampleModal'>Add Food</button>"
   } else {
       fridge = localFridge
       headerStr += "<h1 class='col-md-8' style='font-size:32px; padding-top:10px;'>Community Fridge</h1>"
   }
-  headerStr += "<button id='add-food-button' type='button' class='btn btn-primary col-md-4' data-toggle='modal' data-target='#exampleModal'>Add Food</button></div></div><div class='accordion' id='accordionExample'>"
+  headerStr += "</div></div><div class='accordion' id='accordionExample'>"
   column.innerHTML = headerStr
   for (i = 0; i < fridge.length; i++){
     f = fridge[i]

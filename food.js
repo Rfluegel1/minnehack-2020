@@ -21,7 +21,7 @@ class Food {
     setExpiryDate(date) {
         // accepts input [year, month, day]
         // TODO: error checking
-        this.ExpiryDate = new Date(date[0], date[1], date[2])
+        this.ExpiryDate = new Date(date[0], date[1] - 1, date[2])
     }
     getPurchaseDate() {
         // we can return as Date object or string
@@ -31,7 +31,7 @@ class Food {
     setPurchaseDate(date) {
         // [year, month, day]
         // TODO: error checking
-        this.PurchaseDate = new Date(date[0], date[1], date[2])
+        this.PurchaseDate = new Date(date[0], date[1] - 1, date[2])
     }
     daysTilExpiry() {
         // returns days until expiration, -1 if expired

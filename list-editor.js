@@ -1,7 +1,6 @@
-var produce = ["banana", "apple", "pear"];
-var localFridge = [];
+var personalFridge = [new Food("banana"), new Food("apple"), new Food("pear")];
+var localFridge = [new Food("eggs"), new Food("celery")];
 var column = document.getElementById("list");
-var local_column = document.getElementById("local_fridge");
 
 function addToLocalFridge(t) {
   removeFood(t);
@@ -11,9 +10,9 @@ function addToLocalFridge(t) {
 }
 
 function removeFood(t) {
-  for (i = 0; i < produce.length; i++){
-    if (produce[i] == t){
-      produce.splice(i, 1);
+  for (i = 0; i < personalFridge.length; i++){
+    if (personalFridge[i].foodname == t){
+      personalFridge.splice(i, 1);
       break;
     }
   }
@@ -21,20 +20,33 @@ function removeFood(t) {
 }
 
 function addFood() {
-  var new_food = document.getElementById("new_food").value;
-  produce.push(new_food);
+  var new_food = new Food(document.getElementById("new_food").value);
+  new_food.setPurchaseDate(document.getElementById("pur_date").value.split("-"));
+  new_food.setExpiryDate(document.getElementById("exp_date").value.split("-"));
+  personalFridge.push(new_food);
   display();
 }
 
+
 function display() {
-  column.innerHTML = "<h1 id='your-fridge-title'>Your Fridge<button id='add-food-button' type='button' class='btn btn-primary' data-toggle='modal' data-target='#exampleModal'>add new food</button></h1><div class='accordion' id='accordionExample'>";
-  for (i = 0; i < produce.length; i++){
-    var f = new Food(produce[i]);
+  var fridge = []
+  var headerStr = "<div class='container' style='margin-bottom:20px;'><div class='row' id='your-fridge-title'>"
+    if (document.getElementById("fridge_name")) {
+      fridge = personalFridge
+      headerStr += "<h1 class='col-md-8' style='padding-top:5px;'>Your Fridge</h1>"
+  } else {
+      fridge = localFridge
+      headerStr += "<h1 class='col-md-8' style='font-size:32px; padding-top:10px;'>Community Fridge</h1>"
+  }
+  headerStr += "<button id='add-food-button' type='button' class='btn btn-primary col-md-4' data-toggle='modal' data-target='#exampleModal'>Add Food</button></div></div><div class='accordion' id='accordionExample'>"
+  column.innerHTML = headerStr
+  for (i = 0; i < fridge.length; i++){
+    f = fridge[i]
     column.innerHTML +=
     `<div class='card'>
     <div class='card-header justify-content-between' id='heading`+ i +`'>
     <h2 class='mb-0'>
-    <button class='btn produce-button' type='button' data-toggle='collapse' data-target='#collapse`+ i +`' aria-expanded='true' aria-controls='collapse`+ i +`'>
+    <button class='btn fridge-button' type='button' data-toggle='collapse' data-target='#collapse`+ i +`' aria-expanded='true' aria-controls='collapse`+ i +`'>
     <h3>` + f.foodname + `</h3>
     </button>
     <button class='close-button' onClick='removeFood(this.parentNode.childNodes[1].innerText)'><svg class="bi bi-x-square-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -44,38 +56,42 @@ function display() {
     </div>
 
     <div id='collapse`+ i +`' class='collapse' aria-labelledby='heading`+ i +`' data-parent='#accordionExample'>
-    <div class='card-body'>
-    Date of Purchase: `+ f.printPurchaseDate() +`<br> Estimated Expire Date: `+ f.printExpiryDate() +` <br> <button onClick='addToLocalFridge(this.parentNode.parentNode.parentNode.childNodes[1].innerText)'>add to local fridge</button>
-    </div>
-    </div>
+      <div class='container'>
+        <div class='row'>
+            <div class="col-sm-8"><b style="margin-top: 20px">Purchase Date</b>:<br>`+ f.printPurchaseDate() +`<br><b>Expiry Date</b>:<br>`+ f.printExpiryDate() +`</div>
+            <div class = "col-sm-4">
+              <button style="margin-top:20px;" class="btn btn-success" onClick='addToLocalFridge(this.parentNode.parentNode.parentNode.childNodes[1].innerText)'>Send to Local Fridge</button>
+          </div>
+        </div>
+      </div>
     </div>`
   }
   column.innerHTML += '</div>';
 
-  local_column.innerHTML = "<h1 id='your-fridge-title'>Local Fridge</h1><div class='accordion' id='accordionExample'>";
-  for (j = 0; j < local_fridge.length; j++){
-    var f = new Food(local_fridge[i]);
-    local_column.innerHTML +=
-    `<div class='card'>
-    <div class='card-header justify-content-between' id='heading`+ i +`'>
-    <h2 class='mb-0'>
-    <button class='btn produce-button' type='button' data-toggle='collapse' data-target='#collapse`+ i +`' aria-expanded='true' aria-controls='collapse`+ i +`'>
-    <h3>` + f.foodname + `</h3>
-    </button>
-    <button class='close-button' onClick='removeFood(this.parentNode.childNodes[1].innerText)'><svg class="bi bi-x-square-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-    <path fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2H4zm3.354 4.646L10 9.293l2.646-2.647a.5.5 0 01.708.708L10.707 10l2.647 2.646a.5.5 0 01-.708.708L10 10.707l-2.646 2.647a.5.5 0 01-.708-.708L9.293 10 6.646 7.354a.5.5 0 11.708-.708z" clip-rule="evenodd"></path>
-    </svg></button>
-    </h2>
-    </div>
-
-    <div id='collapse`+ i +`' class='collapse' aria-labelledby='heading`+ i +`' data-parent='#accordionExample'>
-    <div class='card-body'>
-    Date of Purchase: `+ f.printPurchaseDate() +`<br> Estimated Expire Date: `+ f.printExpiryDate() +` <br> <button onClick='addToLocalFridge(this.parentNode.parentNode.parentNode.childNodes[1].innerText)'>add to local fridge</button>
-    </div>
-    </div>
-    </div>`
-  }
-  local_column.innerHTML += '</div>';
+  // local_column.innerHTML = "<h1 id='your-fridge-title'>Local Fridge</h1><div class='accordion' id='accordionExample'>";
+  // for (j = 0; j < local_fridge.length; j++){
+  //   var f = new Food(local_fridge[i]);
+  //   local_column.innerHTML +=
+  //   `<div class='card'>
+  //   <div class='card-header justify-content-between' id='heading`+ i +`'>
+  //   <h2 class='mb-0'>
+  //   <button class='btn personalFridge-button' type='button' data-toggle='collapse' data-target='#collapse`+ i +`' aria-expanded='true' aria-controls='collapse`+ i +`'>
+  //   <h3>` + f.foodname + `</h3>
+  //   </button>
+  //   <button class='close-button' onClick='removeFood(this.parentNode.childNodes[1].innerText)'><svg class="bi bi-x-square-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  //   <path fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2H4zm3.354 4.646L10 9.293l2.646-2.647a.5.5 0 01.708.708L10.707 10l2.647 2.646a.5.5 0 01-.708.708L10 10.707l-2.646 2.647a.5.5 0 01-.708-.708L9.293 10 6.646 7.354a.5.5 0 11.708-.708z" clip-rule="evenodd"></path>
+  //   </svg></button>
+  //   </h2>
+  //   </div>
+  //
+  //   <div id='collapse`+ i +`' class='collapse' aria-labelledby='heading`+ i +`' data-parent='#accordionExample'>
+  //   <div class='card-body'>
+  //   Date of Purchase: `+ f.printPurchaseDate() +`<br> Estimated Expire Date: `+ f.printExpiryDate() +` <br> <button onClick='addToLocalFridge(this.parentNode.parentNode.parentNode.childNodes[1].innerText)'>add to local fridge</button>
+  //   </div>
+  //   </div>
+  //   </div>`
+  // }
+  // local_column.innerHTML += '</div>';
 }
 
 

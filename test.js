@@ -1,8 +1,17 @@
-var d = new Date();
+const MongoClient = require('mongodb').MongoClient;
+const url = "mongodb+srv://alex:asdasd@cluster0-xfzgw.gcp.mongodb.net/test?retryWrites=true&w=majority";
 
-var d2 = new Date();
-d2.setDate(d2.getDate() + 5);
-console.log(d2);
-
-var a = (d2 - d) / (1000*60*60*24)
-console.log(a)
+MongoClient.connect(url, function(err, db) {
+    console.log('Connected');
+    db.close();
+});
+// const client = new MongoClient(uri, { useNewUrlParser: true });
+//
+//
+// client.connect(err => {
+//   const collection = client.db("test").collection("devices");
+//   // perform actions on the collection object
+//   var myobj = { name: "Company Inc", address: "Highway 37" };
+//   collection.collection("customers")
+//   client.close();
+// });

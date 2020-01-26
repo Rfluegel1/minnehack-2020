@@ -1,0 +1,22 @@
+var expiryDictionary = {
+    "apples" = 28
+    "bananas" = 7
+    "bread (white)" = 31
+    "carrots" = 14
+    "celery" = 14
+    "chives" = 7
+    "durians" = 7
+    "eggs" = 12
+    "feta cheese" = 14
+    "ground beef" = 16
+    "ham" = 20
+    "hamburger" = 20
+    "jar of pickles" = 90
+    "ketchup" = 120
+    "mushrooms" = 30
+    "nectarines" = 10
+    "olives" = 10
+    "pork chop" = 10
+    "salad" = 7
+    "turnips" = 7
+}

@@ -1,6 +1,7 @@
 // food class
+// TODO:
 
-class FoodObj {
+class Food {
     constructor(name) {
         this.foodname = name
         // defaults to current day in UTC, sets to CST
@@ -46,7 +47,7 @@ class FoodObj {
 }
 
 // testing
-// var f = new FoodObj()
+// var f = new Food()
 //
 // console.log(f.getDateOfPurchase())
 // console.log(f.getDateOfExpiry())

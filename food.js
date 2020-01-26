@@ -46,15 +46,62 @@ class Food {
     }
 }
 
-// testing
+function sortAlpha(foodList) {
+    // takes a list of Foods, returns a sorted list
+    foodList.sort(function(a, b) {
+        if (a.foodname < b.foodname) { return -1 }
+        if (a.foodname > b.foodname) { return 1 }
+        return 0;
+    })
+    return foodList.sort()
+}
+
+// // testing
 // var f = new Food()
 //
 // console.log(f.getDateOfPurchase())
 // console.log(f.getDateOfExpiry())
 //
-// // f.setDateOfPurchase([1999, 9, 1])
-// // console.log(f.getDateOfPurchase())
-// // f.setDateOfExpiry([2010, 2, 1])
-// // console.log(f.getDateOfExpiry())
+// f.setDateOfPurchase([1999, 9, 1])
+// console.log(f.getDateOfPurchase())
+// f.setDateOfExpiry([2010, 2, 1])
+// console.log(f.getDateOfExpiry())
 //
 // console.log(f.daysTilExpiry())
+//
+// function sortAlpha(foodList) {
+//     // takes a list of Foods, returns a sorted list
+//     foodList.sort(function(a, b) {
+//         if (a.foodname < b.foodname) { return -1 }
+//         if (a.foodname > b.foodname) { return 1 }
+//         return 0;
+//     })
+//     return foodList
+// }
+//
+// function sortByExpiryDec(foodList) {
+//     foodList.sort(function(a, b) {
+//         if (a.dateOfExpiry < b.dateOfExpiry) { return -1 }
+//         if (a.dateOfExpiry > b.dateOfExpiry) { return 1 }
+//         return 0
+//     })
+//     return foodList
+// }
+//
+// function sortByExpiryAsc(foodList) {
+//     return sortByExpiryDec(foodList).reverse()
+// }
+//
+// var a = new Food("Apples")
+// var b = new Food("Banana")
+// var c = new Food("Carrot")
+//
+// a.setDateOfExpiry([2000, 1, 1])
+// b.setDateOfExpiry([2001, 1, 1])
+// c.setDateOfExpiry([2002, 1, 1])
+//
+// var fridge = [c, a, b]
+// console.log(fridge)
+// console.log(sortAlpha(fridge))
+// console.log(sortByExpiryDec(fridge))
+// console.log(sortByExpiryAsc(fridge))

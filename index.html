@@ -62,6 +62,26 @@
   <div id = "local_fridge" class='list-group'>
 
   </div>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyBP_7RYNNrKUBQyly-M6wi98hEc9Q5xJ30",
+    authDomain: "expiration-mitigation.firebaseapp.com",
+    databaseURL: "https://expiration-mitigation.firebaseio.com",
+    projectId: "expiration-mitigation",
+    storageBucket: "expiration-mitigation.appspot.com",
+    messagingSenderId: "736127569229",
+    appId: "1:736127569229:web:6464aeb291e6f89c09bb04"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
 </body>
 <script src="food.js"></script>
 <script src="list-editor.js"></script>

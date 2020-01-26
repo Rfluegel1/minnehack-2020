@@ -1,7 +1,9 @@
 var personalFridge = [new Food("banana"), new Food("apple"), new Food("pear")];
 var localFridge = [new Food("eggs"), new Food("celery")];
 var column = document.getElementById("list");
+fridge = [];
 document.cookie = ""
+var db = firebase.database();
 
 function addToLocalFridge(t) {
   removeFood(t);
@@ -25,6 +27,9 @@ function addFood() {
   new_food.setPurchaseDate(document.getElementById("pur_date").value.split("-"));
   new_food.setExpiryDate(document.getElementById("exp_date").value.split("-"));
   personalFridge.push(new_food);
+  db.ref().child("personal-fridge").child(new_food.foodname).child("expiration-date").set(new_food.printExpiryDate());
+  db.red().child("personal-fridge").child(new_food.foodname).child("purchase-date").set(new_food.printPurchaseDate());
+
   display();
 }
 
@@ -41,6 +46,14 @@ function display() {
   }
   headerStr += "</div></div><div class='accordion' id='accordionExample'>"
   column.innerHTML = headerStr
+
+  var dbjson;
+  personal_fridge_ref = db.ref().child('personal-fridge');
+  personal_fridge_ref.on('value', snap =>
+      {
+        console.log(snap.val());
+      });
+
   for (i = 0; i < fridge.length; i++){
     var bodyStr = `<div class='card'>
     <div class='card-header justify-content-between' id='heading`+ i +`'>

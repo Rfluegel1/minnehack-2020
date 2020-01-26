@@ -1,5 +1,3 @@
-// food class
-// TODO:
 class Food {
     constructor(name) {
         this.foodname = name
@@ -35,7 +33,8 @@ class Food {
     }
     daysTilExpiry() {
         // returns days until expiration, -1 if expired
-        var daysTil = (this.ExpiryDate - this.PurchaseDate)/(1000*60*60*24)
+        var today = new Date()
+        var daysTil = (this.ExpiryDate - today)/(1000*60*60*24)
         if (daysTil < 0) {
             return -1
         } else {
@@ -65,57 +64,3 @@ class Food {
         return dateString
     }
 }
-
-// // testing
-// var f = new Food()
-//
-// console.log(f.getPurchaseDate())
-// console.log(f.getExpiryDate())
-//
-// console.log(f.printPurchaseDate())
-// console.log(f.printExpiryDate())
-
-//
-// f.setPurchaseDate([1999, 9, 1])
-// console.log(f.getPurchaseDate())
-// f.setExpiryDate([2010, 2, 1])
-// console.log(f.getExpiryDate())
-//
-// console.log(f.daysTilExpiry())
-//
-// function sortAlpha(foodList) {
-//     // takes a list of Foods, returns a sorted list
-//     foodList.sort(function(a, b) {
-//         if (a.foodname < b.foodname) { return -1 }
-//         if (a.foodname > b.foodname) { return 1 }
-//         return 0;
-//     })
-//     return foodList
-// }
-//
-// function sortByExpiryDec(foodList) {
-//     foodList.sort(function(a, b) {
-//         if (a.ExpiryDate < b.ExpiryDate) { return -1 }
-//         if (a.ExpiryDate > b.ExpiryDate) { return 1 }
-//         return 0
-//     })
-//     return foodList
-// }
-//
-// function sortByExpiryAsc(foodList) {
-//     return sortByExpiryDec(foodList).reverse()
-// }
-//
-// var a = new Food("Apples")
-// var b = new Food("Banana")
-// var c = new Food("Carrot")
-//
-// a.setExpiryDate([2000, 1, 1])
-// b.setExpiryDate([2001, 1, 1])
-// c.setExpiryDate([2002, 1, 1])
-//
-// var fridge = [c, a, b]
-// console.log(fridge)
-// console.log(sortAlpha(fridge))
-// console.log(sortByExpiryDec(fridge))
-// console.log(sortByExpiryAsc(fridge))

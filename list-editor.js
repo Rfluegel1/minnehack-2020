@@ -42,13 +42,26 @@ function display() {
   headerStr += "</div></div><div class='accordion' id='accordionExample'>"
   column.innerHTML = headerStr
   for (i = 0; i < fridge.length; i++){
-    f = fridge[i]
-    column.innerHTML +=
-    `<div class='card'>
+    var bodyStr = `<div class='card'>
     <div class='card-header justify-content-between' id='heading`+ i +`'>
     <h2 class='mb-0'>
     <button class='btn fridge-button' type='button' data-toggle='collapse' data-target='#collapse`+ i +`' aria-expanded='true' aria-controls='collapse`+ i +`'>
-    <h3>` + f.foodname + `</h3>
+    <span>
+    <h3><img src="`
+    f = fridge[i]
+    imgurl = "img/green_circle.png"
+    console.log(f.foodname)
+    console.log(f.daysTilExpiry())
+    if (f.daysTilExpiry() <= 0) {
+        imgurl = "img/red_circle.png"
+    } else if (f.daysTilExpiry() <= 1) {
+        imgurl = "img/orange_circle.png"
+    } else if (f.daysTilExpiry() <= 2) {
+        imgurl = "img/yellow_circle.png"
+    }
+    bodyStr += imgurl
+    bodyStr += `" height="40" style="margin-right:10px;">` + f.foodname + `</h3>
+    </span>
     </button>
     <button class='close-button' onClick='removeFood(this.parentNode.childNodes[1].innerText)'><svg class="bi bi-x-square-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
     <path fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2H4zm3.354 4.646L10 9.293l2.646-2.647a.5.5 0 01.708.708L10.707 10l2.647 2.646a.5.5 0 01-.708.708L10 10.707l-2.646 2.647a.5.5 0 01-.708-.708L9.293 10 6.646 7.354a.5.5 0 11.708-.708z" clip-rule="evenodd"></path>
@@ -66,6 +79,7 @@ function display() {
         </div>
       </div>
     </div>`
+    column.innerHTML += bodyStr;
   }
   column.innerHTML += '</div>';
 

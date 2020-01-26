@@ -1,5 +1,29 @@
 class Food {
     constructor(name) {
+        var expiryDictionary = {
+            "apple": 28,
+            "banana": 7,
+            "bread": 31,
+            "carrots": 14,
+            "celery": 14,
+            "chives": 7,
+            "durians": 7,
+            "eggs": 12,
+            "feta cheese": 14,
+            "ground beef": 16,
+            "ham": 20,
+            "hamburger": 20,
+            "jar of pickles": 90,
+            "ketchup": 120,
+            "lettuce": 10,
+            "mushrooms": 30,
+            "nectarines": 10,
+            "olives": 10,
+            "pork chop": 10,
+            "salad": 7,
+            "turnips": 7,
+        }
+
         this.foodname = name
         // defaults to current day in UTC, sets to CST
         this.PurchaseDate = new Date()
@@ -9,7 +33,11 @@ class Food {
         // right now defaulting to 7 days
         this.ExpiryDate = new Date()
         this.ExpiryDate.setTime(this.ExpiryDate.getTime() - 21600000)
-        this.ExpiryDate.setDate(this.ExpiryDate.getDate() + 7)
+        if (expiryDictionary[this.foodname]) {
+            this.ExpiryDate.setDate(this.ExpiryDate.getDate() + expiryDictionary[this.foodname])
+        } else {
+            this.ExpiryDate.setDate(this.ExpiryDate.getDate() + 7)
+        }
     }
     getExpiryDate() {
         // we can return as Date object or string

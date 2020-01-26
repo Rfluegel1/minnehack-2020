@@ -38,33 +38,51 @@ function display() {
   var fridge = []
   var headerStr = "<div class='container' style='margin-bottom:20px;'><div class='row' id='your-fridge-title'>"
     if (document.getElementById("fridge_name")) {
-      fridge = personalFridge
+      fridge_ref = db.ref().child('personal-fridge');
       headerStr += "<h1 class='col-md-8' style='padding-top:5px;'>Your Fridge</h1><button id='add-food-button' type='button' class='btn btn-primary col-md-4' data-toggle='modal' data-target='#exampleModal'>Add Food</button>"
   } else {
-      fridge = localFridge
+      fridge_ref = db.ref().child('community-fridge');
       headerStr += "<h1 class='col-md-8' style='font-size:32px; padding-top:10px;'>Community Fridge</h1>"
   }
   headerStr += "</div></div><div class='accordion' id='accordionExample'>"
   column.innerHTML = headerStr
 
   var dbjson;
-  personal_fridge_ref = db.ref().child('personal-fridge');
-  personal_fridge_ref.on('value', snap =>
+  fridge_ref.on('value', snap =>
       {
-        console.log(snap.val());
-        console.log(Object.keys(snap.val()).length);
+
+        var i = 0;
         for (var key in snap.val()){
-          console.log(key);
-          console.log(snap.val()[key]);
-        }
-        for (i = 0; i < fridge.length; i++){
+          var foodname = key;
+          var dates = snap.val()[key];
+          var months = ["January", "February", "March", "April", "May", "June",
+              "July", "August", "September", "October", "November", "December"]
+          var exp_date = dates["expiration-date"];
+          var pur_date = dates["purchase-date"];
+          exp_month = exp_date.slice(exp_date.indexOf(" "), exp_date.length-2).trim();
+          pur_month = pur_date.slice(pur_date.indexOf(" "), pur_date.length-2).trim();
+          console.log(pur_month)
+          var exp_mo_no;
+          var pur_mo_no;
+          for (var j = 0; j<12; j++){
+            if (exp_month == months[j]) {
+              exp_mo_no = j + 1;
+            }
+            if (pur_month == months[j]) {
+              pur_mo_no = j + 1;
+            }
+          }
+          var exp_day_no = exp_date.charAt(exp_date.length-1);
+          var pur_day_no = pur_date.charAt(pur_date.length-1);
           var bodyStr = `<div class='card'>
           <div class='card-header justify-content-between' id='heading`+ i +`'>
           <h2 class='mb-0'>
           <button class='btn fridge-button' type='button' data-toggle='collapse' data-target='#collapse`+ i +`' aria-expanded='true' aria-controls='collapse`+ i +`'>
           <span>
           <h3><img src="`
-          f = fridge[i]
+          f = new Food(foodname);
+          f.setExpiryDate([2020, exp_mo_no, exp_day_no]);
+          f.setPurchaseDate([2020, pur_mo_no, pur_day_no]);
           imgurl = "img/green_circle.png"
           console.log(f.foodname)
           console.log(f.daysTilExpiry())
@@ -96,6 +114,7 @@ function display() {
             </div>
           </div>`
           column.innerHTML += bodyStr;
+          i++;
         }
         column.innerHTML += '</div>';
       });

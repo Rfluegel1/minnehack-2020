@@ -18,12 +18,13 @@ function addToLocalFridge(t) {
 }
 
 function removeFood(t) {
-  for (i = 0; i < personalFridge.length; i++){
-    if (personalFridge[i].foodname == t){
-      personalFridge.splice(i, 1);
-      break;
-    }
+  if (currentUser != ""){
+    fridge_ref = db.ref().child('personal-fridge' + '-' + currentUser);
+  } else {
+    fridge_ref = db.ref().child('personal-fridge');
   }
+  console.log(t);
+  fridge_ref.removeValue();
   display();
 }
 
@@ -31,9 +32,13 @@ function addFood() {
   var new_food = new Food(document.getElementById("new_food").value);
   new_food.setPurchaseDate(document.getElementById("pur_date").value.split("-"));
   new_food.setExpiryDate(document.getElementById("exp_date").value.split("-"));
-  personalFridge.push(new_food);
-  db.ref().child("personal-fridge").child(new_food.foodname).child("expiration-date").set(new_food.printExpiryDate());
-  db.ref().child("personal-fridge").child(new_food.foodname).child("purchase-date").set(new_food.printPurchaseDate());
+  if (currentUser != ""){
+    fridge_ref = db.ref().child('personal-fridge' + '-' + currentUser);
+  } else {
+    fridge_ref = db.ref().child('personal-fridge');
+  }
+  fridge_ref.child(new_food.foodname).child("expiration-date").set(new_food.printExpiryDate());
+  fridge_ref.child(new_food.foodname).child("purchase-date").set(new_food.printPurchaseDate());
 
   display();
 }
@@ -66,10 +71,10 @@ function display() {
           var dates = snap.val()[key];
           var months = ["January", "February", "March", "April", "May", "June",
               "July", "August", "September", "October", "November", "December"]
-          var exp_date = dates["expiration-date"];
-          var pur_date = dates["purchase-date"];
-          exp_month = exp_date.slice(exp_date.indexOf(" "), exp_date.length-2).trim();
-          pur_month = pur_date.slice(pur_date.indexOf(" "), pur_date.length-2).trim();
+          var exp_date = dates["expiration-date"].split(' ');
+          var pur_date = dates["purchase-date"].split(' ');
+          exp_month = exp_date[1];
+          pur_month = pur_date[1];
           console.log(pur_month)
           var exp_mo_no;
           var pur_mo_no;
@@ -81,8 +86,8 @@ function display() {
               pur_mo_no = j + 1;
             }
           }
-          var exp_day_no = exp_date.charAt(exp_date.length-1);
-          var pur_day_no = pur_date.charAt(pur_date.length-1);
+          var exp_day_no = exp_date[2];
+          var pur_day_no = pur_date[2];
           var bodyStr = `<div class='card'>
           <div class='card-header justify-content-between' id='heading`+ i +`'>
           <h2 class='mb-0'>

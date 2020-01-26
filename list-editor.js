@@ -11,10 +11,11 @@ display();
 }
 
 function addToLocalFridge(t) {
-  removeFood(t);
-  localFridge.push(t);
+  console.log(t.parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[1].innerText);
+  removeFood(t.parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[1].innerText);
+  currentUser = 'community';
+  addFood(t.parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[1].innerText);
   display();
-  console.log(localFridge);
 }
 
 function removeFood(t) {
@@ -32,17 +33,24 @@ function removeFood(t) {
   display();
 }
 
-function addFood() {
+function addFood(t) {
   var new_food = new Food(document.getElementById("new_food").value);
   new_food.setPurchaseDate(document.getElementById("pur_date").value.split("-"));
   new_food.setExpiryDate(document.getElementById("exp_date").value.split("-"));
   if (currentUser != ""){
     fridge_ref = db.ref().child('personal-fridge' + '-' + currentUser);
+  } else if (currentUser == "community") {
+    fridge_ref = db.ref().child('community-fridge');
   } else {
     fridge_ref = db.ref().child('personal-fridge');
   }
+  if (t!=""){
   fridge_ref.child(new_food.foodname).child("expiration-date").set(new_food.printExpiryDate());
   fridge_ref.child(new_food.foodname).child("purchase-date").set(new_food.printPurchaseDate());
+}else {
+  fridge_ref.child(t).child("expiration-date").set(new_food.printExpiryDate());
+  fridge_ref.child(t).child("purchase-date").set(new_food.printPurchaseDate());
+}
 
   display();
 }
@@ -126,7 +134,7 @@ function display() {
               <div class='row'>
                   <div class="col-sm-8"><b style="margin-top: 20px">Purchase Date</b>:<br>`+ f.printPurchaseDate() +`<br><b>Expiry Date</b>:<br>`+ f.printExpiryDate() +`</div>
                   <div class = "col-sm-4">
-                    <button style="margin-top:20px;" class="btn btn-success" onClick='addToLocalFridge(this.parentNode.parentNode.parentNode.childNodes[1].innerText)'>Send to Local Fridge</button>
+                    <button style="margin-top:20px;" class="btn btn-success" onClick='addToLocalFridge(this)'>Send to Local Fridge</button>
                 </div>
               </div>
             </div>

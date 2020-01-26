@@ -60,7 +60,7 @@ function display() {
         imgurl = "img/yellow_circle.png"
     }
     bodyStr += imgurl
-    bodyStr += `" height="40" style="margin-right:10px;">` + f.foodname + `</h3>
+    bodyStr += `" height="40" style="margin-right:10px; align="middle">` + f.foodname + `</h3>
     </span>
     </button>
     <button class='close-button' onClick='removeFood(this.parentNode.childNodes[1].innerText)'><svg class="bi bi-x-square-fill" width="1em" height="1em" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

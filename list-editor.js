@@ -18,13 +18,17 @@ function addToLocalFridge(t) {
 }
 
 function removeFood(t) {
-  if (currentUser != ""){
-    fridge_ref = db.ref().child('personal-fridge' + '-' + currentUser);
-  } else {
-    fridge_ref = db.ref().child('personal-fridge');
-  }
+  if (document.getElementById("fridge_name")) {
+    if (currentUser != ""){
+      fridge_ref = db.ref().child('personal-fridge' + '-' + currentUser);
+    } else {
+      fridge_ref = db.ref().child('personal-fridge');
+    }
+  }else{
+      fridge_ref = db.ref().child('community-fridge');
+    }
   console.log(t);
-  fridge_ref.removeValue();
+  fridge_ref.child(t).remove();
   display();
 }
 

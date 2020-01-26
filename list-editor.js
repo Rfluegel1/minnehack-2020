@@ -135,6 +135,11 @@ function display() {
           i++;
         }
         column.innerHTML += '</div>';
+        if (currentUser == "") {
+            document.getElementById("demo").innerHTML = "Hello, default User!";
+        } else {
+            document.getElementById("demo").innerHTML = "Hello, "+currentUser+"!";
+        }
       });
 
 

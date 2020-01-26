@@ -1,9 +1,14 @@
-var personalFridge = [new Food("banana"), new Food("apple"), new Food("pear")];
-var localFridge = [new Food("eggs"), new Food("celery")];
 var column = document.getElementById("list");
 fridge = [];
 document.cookie = ""
 var db = firebase.database();
+var currentUser = ""
+
+
+function login() {
+currentUser = document.getElementById("inputUsername").value;
+display();
+}
 
 function addToLocalFridge(t) {
   removeFood(t);
@@ -38,7 +43,11 @@ function display() {
   var fridge = []
   var headerStr = "<div class='container' style='margin-bottom:20px;'><div class='row' id='your-fridge-title'>"
     if (document.getElementById("fridge_name")) {
-      fridge_ref = db.ref().child('personal-fridge');
+      if (currentUser != ""){
+        fridge_ref = db.ref().child('personal-fridge' + '-' + currentUser);
+      } else {
+        fridge_ref = db.ref().child('personal-fridge');
+      }
       headerStr += "<h1 class='col-md-8' style='padding-top:5px;'>Your Fridge</h1><button id='add-food-button' type='button' class='btn btn-primary col-md-4' data-toggle='modal' data-target='#exampleModal'>Add Food</button>"
   } else {
       fridge_ref = db.ref().child('community-fridge');
